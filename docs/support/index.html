@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f4">
+  <meta name="description" content="Get help with the Printer app, AirPrint, purchases, and account questions.">
+  <title>Support — Printer</title>
+  <style>
+    :root {
+      --canvas: #f5f7f4;
+      --canvas-blue: #eef3fb;
+      --panel: rgba(255, 255, 255, .76);
+      --panel-solid: #ffffff;
+      --ink: #17191e;
+      --muted: #606772;
+      --faint: #8d959f;
+      --line: rgba(33, 46, 61, .11);
+      --blue: #245fbc;
+      --blue-deep: #174a98;
+      --blue-wash: #e2edfd;
+      --sage: #b9c9b6;
+      --shadow: 0 20px 50px rgba(39, 52, 70, .10);
+      --radius-lg: 30px;
+      --radius-md: 20px;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 88% 4%, rgba(178, 207, 245, .52), transparent 24rem),
+        radial-gradient(circle at -8% 84%, rgba(190, 210, 186, .34), transparent 30rem),
+        linear-gradient(135deg, var(--canvas) 0%, var(--canvas-blue) 52%, #f4f6f1 100%);
+      font: 400 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    a { color: inherit; }
+
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 26px 0 12px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-weight: 750;
+      letter-spacing: -.02em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(145deg, #3175d5, var(--blue-deep));
+      border-radius: 10px;
+      box-shadow: 0 7px 15px rgba(28, 79, 162, .25);
+    }
+
+    .brand-mark svg { width: 18px; height: 18px; }
+
+    .header-link {
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .header-link:hover { color: var(--blue); }
+
+    main { padding: 42px 0 64px; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(250px, .8fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 64px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 15px;
+      color: var(--blue);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 26px;
+      height: 1px;
+      content: "";
+      background: currentColor;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 740px;
+      margin-bottom: 17px;
+      font-family: Iowan Old Style, Palatino, "Palatino Linotype", Georgia, serif;
+      font-size: clamp(3.1rem, 7vw, 6rem);
+      font-weight: 600;
+      letter-spacing: -.062em;
+      line-height: .94;
+    }
+
+    .hero-copy {
+      max-width: 570px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-art {
+      position: relative;
+      min-height: 246px;
+      overflow: hidden;
+      isolation: isolate;
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, .38);
+      box-shadow: var(--shadow);
+    }
+
+    .paper {
+      position: absolute;
+      width: 136px;
+      height: 176px;
+      border: 1px solid rgba(31, 67, 114, .13);
+      border-radius: 8px;
+      background: linear-gradient(90deg, #fff, #f7faff);
+      box-shadow: 0 18px 25px rgba(37, 66, 103, .13);
+    }
+
+    .paper::before, .paper::after {
+      position: absolute;
+      right: 22px;
+      left: 22px;
+      height: 5px;
+      content: "";
+      border-radius: 100px;
+      background: #d9e7fb;
+    }
+
+    .paper::before { top: 48px; box-shadow: 0 18px 0 #e7effb, 0 36px 0 #e7effb; }
+    .paper::after { top: 25px; right: 55px; background: #3b75c9; }
+    .paper-back { top: 45px; right: 52px; transform: rotate(10deg); }
+    .paper-front { top: 28px; right: 87px; transform: rotate(-7deg); }
+
+    .tray {
+      position: absolute;
+      right: 43px;
+      bottom: 30px;
+      width: 190px;
+      height: 65px;
+      border: 1px solid rgba(30, 65, 110, .14);
+      border-radius: 18px 18px 24px 24px;
+      background: linear-gradient(145deg, #6497dd, #225aa8);
+      box-shadow: 0 18px 25px rgba(35, 79, 145, .27);
+    }
+
+    .tray::after {
+      position: absolute;
+      top: 17px;
+      right: 25px;
+      left: 25px;
+      height: 12px;
+      content: "";
+      border-radius: 8px;
+      background: rgba(244, 249, 255, .74);
+    }
+
+    .status-dot {
+      position: absolute;
+      right: 25px;
+      bottom: 22px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d6ef97;
+      box-shadow: 0 0 0 6px rgba(214, 239, 151, .18);
+    }
+
+    .support-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .84fr) minmax(0, 1.16fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid rgba(255, 255, 255, .76);
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      box-shadow: 0 14px 38px rgba(39, 52, 70, .065);
+      backdrop-filter: blur(16px);
+    }
+
+    .quick-help { padding: 26px; }
+
+    h2 {
+      margin-bottom: 6px;
+      font-family: Iowan Old Style, Palatino, "Palatino Linotype", Georgia, serif;
+      font-size: 1.7rem;
+      letter-spacing: -.035em;
+      line-height: 1.12;
+    }
+
+    .section-intro { margin-bottom: 20px; color: var(--muted); font-size: .95rem; }
+
+    .guide-list { margin: 0; padding: 0; list-style: none; }
+
+    .guide-list li {
+      display: grid;
+      grid-template-columns: 39px 1fr;
+      gap: 13px;
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .guide-list li:first-child { border-top: 0; padding-top: 3px; }
+
+    .guide-icon {
+      display: grid;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      color: var(--blue);
+      border-radius: 13px;
+      background: var(--blue-wash);
+    }
+
+    .guide-icon svg { width: 20px; height: 20px; }
+
+    .guide-list strong { display: block; margin-bottom: 2px; font-size: .96rem; }
+    .guide-list span { display: block; color: var(--muted); font-size: .88rem; line-height: 1.42; }
+
+    .privacy-note {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 14px;
+      color: #4e6153;
+      border-radius: 16px;
+      background: rgba(209, 226, 208, .55);
+      font-size: .84rem;
+      line-height: 1.42;
+    }
+
+    .privacy-note svg { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 1px; }
+
+    .form-panel { padding: 30px; }
+
+    .form-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+
+    .form-heading p { max-width: 290px; margin: 3px 0 0; color: var(--muted); font-size: .9rem; text-align: right; }
+
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field { display: grid; gap: 7px; margin-bottom: 16px; }
+    label { color: #3f4651; font-size: .8rem; font-weight: 750; }
+
+    input, select, textarea {
+      width: 100%;
+      color: var(--ink);
+      border: 1px solid rgba(38, 55, 78, .14);
+      outline: none;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .74);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8);
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    input, select { height: 48px; padding: 0 13px; }
+    textarea { min-height: 132px; padding: 12px 13px; resize: vertical; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(36, 95, 188, .78);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(54, 121, 218, .15);
+    }
+
+    .diagnostics {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin: 4px 0 20px;
+      padding: 12px 13px 12px 15px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(237, 242, 250, .76);
+    }
+
+    .diagnostics-copy { min-width: 0; }
+    .diagnostics strong { display: block; font-size: .84rem; }
+    .diagnostics code { display: block; overflow: hidden; color: var(--muted); font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
+
+    .copy-button {
+      flex: 0 0 auto;
+      padding: 8px 10px;
+      color: var(--blue);
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      font-size: .78rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .copy-button:hover { background: rgba(36, 95, 188, .08); }
+
+    .submit-button {
+      display: inline-flex;
+      width: 100%;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      color: #fff;
+      border: 0;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #2d6bc5, #174991);
+      box-shadow: 0 12px 21px rgba(23, 73, 145, .23);
+      font-size: .95rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .submit-button:hover { box-shadow: 0 15px 26px rgba(23, 73, 145, .31); transform: translateY(-1px); }
+    .submit-button svg { width: 17px; height: 17px; }
+    .form-note { margin: 12px 0 0; color: var(--faint); font-size: .75rem; text-align: center; }
+
+    .legal-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin: 34px 0 0;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .legal-links a:hover { color: var(--blue); }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      z-index: 5;
+      padding: 10px 14px;
+      color: #fff;
+      border-radius: 12px;
+      background: #273849;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .16);
+      font-size: .85rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 12px);
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+
+    :focus-visible { outline: 3px solid rgba(36, 95, 188, .58); outline-offset: 3px; }
+
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 28px, 620px); }
+      .site-header { padding-top: 16px; }
+      main { padding-top: 28px; }
+      .hero { grid-template-columns: 1fr; gap: 26px; margin-bottom: 40px; }
+      .hero-art { min-height: 195px; }
+      .paper-back { top: 24px; right: 24%; }
+      .paper-front { top: 14px; right: 34%; }
+      .tray { right: 18%; bottom: 22px; }
+      .support-layout { grid-template-columns: 1fr; gap: 18px; }
+      .form-heading { display: block; }
+      .form-heading p { margin-top: 7px; text-align: left; }
+    }
+
+    @media (max-width: 470px) {
+      h1 { font-size: 3.25rem; }
+      .quick-help, .form-panel { padding: 21px; border-radius: 24px; }
+      .field-grid { grid-template-columns: 1fr; gap: 0; }
+      .diagnostics { align-items: flex-start; }
+      .copy-button { margin-top: -4px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Printer support home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12"/></svg>
+        </span>
+        Printer
+      </a>
+      <a class="header-link" href="https://apps.apple.com/us/app/printer-app/id1541008027">View on the App Store</a>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Printer support</p>
+          <h1 id="page-title">Let's get your next page moving.</h1>
+          <p class="hero-copy">Find the quickest fix for a printing issue, or send a clear note to our support team. Printer keeps your files on your device—support starts with the details you choose to share.</p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="paper paper-back"></div>
+          <div class="paper paper-front"></div>
+          <div class="tray"></div>
+          <div class="status-dot"></div>
+        </div>
+      </section>
+
+      <section class="support-layout" aria-label="Printer support options">
+        <aside class="panel quick-help" aria-labelledby="quick-help-title">
+          <h2 id="quick-help-title">A quick check first</h2>
+          <p class="section-intro">These three checks resolve most printing questions before you need to write in.</p>
+
+          <ol class="guide-list">
+            <li>
+              <span class="guide-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12.55a11 11 0 0 1 14 0"/><path d="M1.6 8.35a15 15 0 0 1 20.8 0"/><circle cx="12" cy="20" r="1"/></svg></span>
+              <div><strong>Check your Wi-Fi</strong><span>Keep your iPhone or iPad and AirPrint printer on the same local network.</span></div>
+            </li>
+            <li>
+              <span class="guide-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12"/></svg></span>
+              <div><strong>Confirm AirPrint</strong><span>Printer connects through Apple AirPrint. Check your printer model supports it and is ready to print.</span></div>
+            </li>
+            <li>
+              <span class="guide-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6"/><rect x="14" y="15" width="8" height="8" rx="1"/></svg></span>
+              <div><strong>For a purchase question</strong><span>Have your App Store transaction details ready so we can help identify the purchase.</span></div>
+            </li>
+          </ol>
+
+          <div class="privacy-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Printer does not collect your documents or usage data. Only include the information you want our support team to see.</span>
+          </div>
+        </aside>
+
+        <section class="panel form-panel" aria-labelledby="contact-title">
+          <div class="form-heading">
+            <div>
+              <h2 id="contact-title">Contact support</h2>
+            </div>
+            <p>We'll prepare an email in your mail app. Nothing is sent until you choose to send it.</p>
+          </div>
+
+          <form id="support-form" novalidate>
+            <div class="field-grid">
+              <div class="field">
+                <label for="topic">What can we help with?</label>
+                <select id="topic" name="topic" required>
+                  <option value="">Choose a topic</option>
+                  <option>Can't find my printer</option>
+                  <option>Printing issue</option>
+                  <option>App feature or file issue</option>
+                  <option>Purchase or billing question</option>
+                  <option>Report a bug</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="reply-to">Your email <span aria-hidden="true">(optional)</span></label>
+                <input id="reply-to" name="reply-to" type="email" autocomplete="email" placeholder="you@example.com">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="message">What happened?</label>
+              <textarea id="message" name="message" required placeholder="Tell us what you expected, what happened instead, and any steps that reliably reproduce the issue."></textarea>
+            </div>
+
+            <div class="diagnostics" aria-label="Diagnostic summary">
+              <div class="diagnostics-copy">
+                <strong>Diagnostic summary</strong>
+                <code id="diagnostic-text">Printer 1.0 · Web support</code>
+              </div>
+              <button class="copy-button" id="copy-diagnostics" type="button">Copy</button>
+            </div>
+
+            <button class="submit-button" type="submit">
+              Open email draft
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+            <p class="form-note" id="form-note">This opens your default mail app with your details prefilled.</p>
+          </form>
+        </section>
+      </section>
+
+      <nav class="legal-links" aria-label="Legal links">
+        <a href="legal/privacy.html">Privacy Policy</a>
+        <a href="legal/terms.html">Terms of Use</a>
+      </nav>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const diagnosticText = document.querySelector('#diagnostic-text');
+      const copyButton = document.querySelector('#copy-diagnostics');
+      const form = document.querySelector('#support-form');
+      const toast = document.querySelector('#toast');
+      let toastTimer;
+
+      const diagnostics = () => [
+        'App: Printer 1.0',
+        'Support page: Web',
+        `Date: ${new Date().toLocaleString()}`,
+        `Browser: ${navigator.userAgent}`
+      ].join('\n');
+
+      diagnosticText.textContent = 'Printer 1.0 · Web support · ' + new Date().toLocaleDateString();
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('visible');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('visible'), 2600);
+      }
+
+      copyButton.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(diagnostics());
+          copyButton.textContent = 'Copied';
+          showToast('Diagnostic summary copied.');
+          setTimeout(() => { copyButton.textContent = 'Copy'; }, 1800);
+        } catch {
+          showToast('Select and copy the diagnostic summary from the email draft.');
+        }
+      });
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const topic = form.querySelector('#topic');
+        const replyTo = form.querySelector('#reply-to');
+        const message = form.querySelector('#message');
+
+        if (!topic.value || !message.value.trim()) {
+          if (!topic.value) topic.focus(); else message.focus();
+          showToast('Choose a topic and tell us what happened.');
+          return;
+        }
+
+        const subject = `[Printer Support] ${topic.value}`;
+        const body = [
+          `Topic: ${topic.value}`,
+          replyTo.value.trim() ? `Reply-to email: ${replyTo.value.trim()}` : '',
+          '',
+          'What happened:',
+          message.value.trim(),
+          '',
+          'Diagnostic summary:',
+          diagnostics()
+        ].filter(Boolean).join('\n');
+
+        window.location.href = `mailto:vunguyen.dev.0306@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      });
+    })();
+  </script>
+</body>
+</html>
